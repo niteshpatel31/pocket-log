@@ -53,7 +53,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
         ) {
         Text(
-            text = "Hello $name! JAVA:w" +
+            text = "Hello $name!" +
                     "",
             modifier = modifier
                 .fillMaxSize()
