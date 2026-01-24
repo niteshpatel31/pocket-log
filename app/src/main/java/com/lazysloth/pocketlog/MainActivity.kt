@@ -1,5 +1,6 @@
 package com.lazysloth.pocketlog
 
+import LoginScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,8 +35,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             PocketLogTheme {
                 Scaffold(modifier = Modifier) { innerPadding ->
-                    Greeting(
-                        name = "Prashant Tripathi",
+                    LoginScreen(
+//
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
