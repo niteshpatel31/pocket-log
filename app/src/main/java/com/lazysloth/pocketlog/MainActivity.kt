@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PocketLogTheme {
                 Scaffold(modifier = Modifier) { innerPadding ->
-                    HomeScreen()
+                    HomeScreen(Modifier.padding(innerPadding))
                 }
             }
         }

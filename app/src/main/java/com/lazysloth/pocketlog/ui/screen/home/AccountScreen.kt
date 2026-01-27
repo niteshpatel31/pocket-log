@@ -8,24 +8,27 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lazysloth.pocketlog.ui.ApplicationBottomNavigation
-import com.lazysloth.pocketlog.ui.screen.contentscreen.StatsScreenContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatsScreen(){
+fun AccountScreen(){
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = ApplicationBottomNavigation.STATS.name,
+                        text = ApplicationBottomNavigation.ACCOUNT.name,
 //                        modifier = Modifier.padding(20.dp)
                     )
                 },
                 )
         }
     ) {
-        StatsScreenContent(Modifier.padding(it))
+        AccountScreenContent(modifier = Modifier.padding(it))
     }
 }
+@Composable
+fun AccountScreenContent(modifier : Modifier = Modifier)
+{
 
+}
