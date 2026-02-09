@@ -1,20 +1,28 @@
 package com.lazysloth.pocketlog.ui.screen.authentication
 
-import LoginScreen
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.lazysloth.pocketlog.ui.screen.authentication.viewmodel.AuthViewModel
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
+import com.lazysloth.pocketlog.data.PasswordManager
 import com.lazysloth.pocketlog.ui.navigationitem.AuthenticationNavigation
+import com.lazysloth.pocketlog.ui.screen.authentication.viewmodel.AuthViewModelFactory
 import com.lazysloth.pocketlog.ui.screen.home.HomeScreen
 
 @Composable
 fun MainScreenNav(navController: NavHostController = rememberNavController(),modifier: Modifier) {
-
+    val context = LocalContext.current
+    val viewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(PasswordManager(context))
+    )
+    val passwordExists by viewModel.passwordExists.collectAsState()
     NavHost(
         startDestination = AuthenticationNavigation.LOGIN.name,
         navController = navController
@@ -22,12 +30,14 @@ fun MainScreenNav(navController: NavHostController = rememberNavController(),mod
         composable(route = AuthenticationNavigation.LOGIN.name) {
             LoginScreen(
                 onForgetClick = { navController.navigate(AuthenticationNavigation.FORGET.name) },
-                onNewUserclick = {
+                onNewUserClick = {
                     navController.navigate(
                         AuthenticationNavigation.SIGNUP.name
                     )
+
                 },
-                onClickGo = { navController.navigate(AuthenticationNavigation.HOME_SCREEN.name) })
+                onClickGo =  { navController.navigate(AuthenticationNavigation.HOME_SCREEN.name) {popUpTo(
+                    AuthenticationNavigation.HOME_SCREEN.name) {inclusive = true}}  })
         }
         composable(route = AuthenticationNavigation.SIGNUP.name) {
             SignupScreen(

@@ -197,11 +197,11 @@ fun SignupScreen(
             ),
             shape = RoundedCornerShape(10.dp),
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
+                onDone = {
+                    onClickGo()
                 }
             ),
             modifier = modifier,
