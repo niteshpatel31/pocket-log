@@ -58,7 +58,7 @@ fun SignupScreen(
     val focusManager = LocalFocusManager.current
     val uiState by viewModel.uiState.collectAsState()
     val onGo = {
-        if (uiState.username.contains(Regex("""[\p{Punct}\p{S}]""")) && uiState.username.isNotEmpty() && uiState.firstName.isNotEmpty() && uiState.lastName.isNotEmpty() && uiState.email.isNotEmpty() && uiState.password.isNotEmpty()
+        if (!uiState.username.contains(Regex("""[\p{Punct}\p{S}]""")) && uiState.username.isNotEmpty() && uiState.firstName.isNotEmpty() && uiState.lastName.isNotEmpty() && uiState.email.isNotEmpty() && uiState.password.isNotEmpty()
         ) {
             authViewModel.saveUser(uiState)
             Toast.makeText(context, "Account Created", Toast.LENGTH_SHORT).show()
