@@ -8,6 +8,8 @@ import androidx.room.Query
 interface UserDao {
     @Insert
     suspend fun saveUser(user: User)
+    @Query("SELECT id FROM users WHERE username = :username")
+    suspend fun getIdByUsername(username: String): Int?
     @Query("SELECT * FROM users WHERE emailId = :emailId AND password = :password")
     suspend fun login(emailId : String,password: String): User?
     @Query("SELECT password FROM  users WHERE emailId = :emailId")

@@ -1,6 +1,8 @@
 package com.lazysloth.pocketlog.ui.screen.authentication
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -48,6 +50,8 @@ import com.lazysloth.pocketlog.R
 import com.lazysloth.pocketlog.di.AppViewModelProvider
 import com.lazysloth.pocketlog.ui.screen.authentication.viewmodel.AuthViewModel
 import com.lazysloth.pocketlog.ui.screen.authentication.viewmodel.SignupViewModel
+import com.lazysloth.pocketlog.ui.screen.home.viewmodel.AddTransactionScreenViewmodel
+import com.lazysloth.pocketlog.ui.screen.home.viewmodel.DashboardScreenViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,14 +64,24 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     val viewModel : AuthViewModel = viewModel(
+
         factory = AppViewModelProvider.Factory
     )
     val signupViewModel: SignupViewModel = viewModel()
     val loginUiState by signupViewModel.uiState.collectAsState()
-    var password by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") }
+
+    val addTransactionScreenViewmodel: AddTransactionScreenViewmodel = viewModel(
+        viewModelStoreOwner = LocalActivity.current as ComponentActivity,
+        factory = AppViewModelProvider.Factory
+    )
+    val dashboardScreenViewModel: DashboardScreenViewModel = viewModel(
+        viewModelStoreOwner = LocalActivity.current as ComponentActivity,
+        factory = AppViewModelProvider.Factory
+    )
+
+
     val focusManager = LocalFocusManager.current
-//    val savedPassword by viewModel.savedPassword.collectAsState()
+
     val onDone = {
         viewModel.viewModelScope.launch {
             if (loginUiState.password.isNotEmpty() && loginUiState.identifier.isNotEmpty() && viewModel.verifyPassword(
@@ -75,9 +89,11 @@ fun LoginScreen(
                 )
             ) {
                 Toast.makeText(context, "Login Successful!", Toast.LENGTH_LONG).show()
+                addTransactionScreenViewmodel.getIdByUsername(loginUiState.identifier)
+                dashboardScreenViewModel.getIdByUsername(loginUiState.identifier)
                 onClickGo()
             } else {
-                Toast.makeText(context, "Invalid password.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Invalid password or username/Email or both.", Toast.LENGTH_SHORT).show()
             }
         }
     }

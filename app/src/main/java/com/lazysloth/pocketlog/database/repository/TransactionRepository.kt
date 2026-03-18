@@ -4,6 +4,7 @@ import com.lazysloth.pocketlog.database.Transaction
 import kotlinx.coroutines.flow.Flow
 
 interface TransactionRepository  {
+    suspend fun assignUserId(transaction: Transaction)
      suspend fun insertTransaction(transaction: Transaction)
 
      suspend fun deleteTransaction(transaction: Transaction)
@@ -14,7 +15,7 @@ interface TransactionRepository  {
 
      fun getTransaction(id: Int): Flow<Transaction?>
 
-    fun getAllTransactions() : Flow<List<Transaction>>
+    fun getAllTransactions(userId: Int?) : Flow<List<Transaction>>
 
 
 

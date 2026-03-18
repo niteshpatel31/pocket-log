@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 class OfflineTransactionRepository(
     private val transactionItemDao: TransactionItemDao
 ) : TransactionRepository {
+    override suspend fun assignUserId(transaction: Transaction) {
+        return transactionItemDao.insert(transaction)
+    }
     override suspend fun insertTransaction(transaction: Transaction) = transactionItemDao.insert(transaction)
 
     override suspend fun deleteTransaction(transaction: Transaction) = transactionItemDao.delete(transaction)
@@ -15,7 +18,7 @@ class OfflineTransactionRepository(
         return transactionItemDao.update(transaction)
     }
 
-    override fun getAllTransactions() = transactionItemDao.getAllTransactionItems()
+    override fun getAllTransactions(userId: Int?) = transactionItemDao.getAllTransactionByUserId(userId)
     override fun getTransaction(id: Int): Flow<Transaction?> {
         return transactionItemDao.getTransaction(id)
     }

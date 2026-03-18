@@ -12,19 +12,39 @@ import com.lazysloth.pocketlog.ui.screen.home.viewmodel.DashboardScreenViewModel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            AuthViewModel(expenseApplication().container.authRepository)
+            println("DEBUG: Factory is running")
+            AddTransactionScreenViewmodel(
+                expenseApplication().container.transactionRepository,
+                expenseApplication().container.userRepository
+            )
         }
         initializer {
-            AddTransactionScreenViewmodel(expenseApplication().container.transactionRepository)
+            AuthViewModel(
+                expenseApplication().container.userRepository,
+                expenseApplication().container.transactionRepository
+            )
         }
+
         initializer {
             DashboardScreenViewModel(
-                expenseApplication().container.transactionRepository
+                expenseApplication().container.transactionRepository,
+                expenseApplication().container.userRepository
             )
         }
 
     }
 }
 
-fun CreationExtras.expenseApplication(): ExpenseApplication = 
-    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as ExpenseApplication)
+fun CreationExtras.expenseApplication(): ExpenseApplication {
+    val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+    if (app is ExpenseApplication) return app
+
+    // Fallback: Try to get application from the ViewModelStoreOwner
+    // This is often needed in newer Compose/Lifecycle versions
+    val owner = this[androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY]
+    if (owner is android.app.Activity) {
+        return owner.application as ExpenseApplication
+    }
+
+    throw IllegalStateException("Could not find ExpenseApplication. Current key value: $app")
+}

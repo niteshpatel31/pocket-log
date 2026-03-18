@@ -2,6 +2,8 @@ package com.lazysloth.pocketlog.ui.screen.other
 
 import android.os.Build
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -59,7 +61,6 @@ import java.time.format.FormatStyle
 import java.util.Date
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransactionScreen(
@@ -68,17 +69,8 @@ fun AddTransactionScreen(
     val context = LocalContext.current.applicationContext
     // Manually create a factory to provide the ViewModel with its required repository.
     val viewModel: AddTransactionScreenViewmodel = viewModel(
+        viewModelStoreOwner = LocalActivity.current as ComponentActivity,
         factory = AppViewModelProvider.Factory
-//        factory = object : ViewModelProvider.Factory {
-//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                if (modelClass.isAssignableFrom(AddTransactionScreenViewmodel::class.java)) {
-//                    val repository = AppDataContainer(context).transactionRepository
-//                    @Suppress("UNCHECKED_CAST")
-//                    return AddTransactionScreenViewmodel(repository) as T
-//                }
-//                throw IllegalArgumentException("Unknown ViewModel class")
-//            }
-//        }
     )
 
     Scaffold(
@@ -126,7 +118,6 @@ fun AddTransactionScreen(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddItems(
@@ -333,7 +324,6 @@ fun <T : Enum<T>> RadioGroup(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showSystemUi = true)
 fun AddTransactionPreview() {

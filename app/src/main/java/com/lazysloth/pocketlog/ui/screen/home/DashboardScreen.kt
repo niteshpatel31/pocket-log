@@ -1,5 +1,7 @@
 package com.lazysloth.pocketlog.ui.screen.home
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -43,6 +45,7 @@ fun DashboardScreen(
     onClickTransactionDetails:(Int) -> Unit,
     onClickAdd: () -> Unit,
     viewmodel: DashboardScreenViewModel = viewModel(
+        viewModelStoreOwner = LocalActivity.current as ComponentActivity,
         factory = AppViewModelProvider.Factory
     )
 ) {
@@ -91,7 +94,7 @@ fun DashboardScreen(
     ) {innerPadding ->
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         val uiStateList by viewmodel.uiStateList.collectAsState()
-        DashboardScreenContent(viewmodel,onClickDetails = {  },uiStateList.transList,Modifier.padding(innerPadding))
+        DashboardScreenContent(viewmodel,onClickDetails = {},uiStateList.transList,Modifier.padding(innerPadding))
     }
 }
 

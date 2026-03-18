@@ -3,10 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     //serialization plugin
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.3.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
     //room
 
-    id("com.google.devtools.ksp") version "2.3.5"
+    id("com.google.devtools.ksp") version "2.2.20-2.0.2"
 
 
 
@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lazysloth.pocketlog"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -50,8 +50,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
     //coil for display image
     implementation(libs.coil.compose)
 
@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     //room database
-    implementation("androidx.room:room-runtime:2.8.4")
+    implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 

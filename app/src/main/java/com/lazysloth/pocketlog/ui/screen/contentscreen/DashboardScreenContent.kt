@@ -59,7 +59,6 @@ fun DashboardScreenContent(
     modifier: Modifier = Modifier
 ) {
     val transItem by viewModel.uiStateItem.collectAsState()
-    val listState = rememberLazyListState()
     var isDialogOpen by remember() { mutableStateOf(false) }
     var itemId by remember { mutableStateOf(0) }
     LazyColumn(

@@ -7,7 +7,7 @@ import com.lazysloth.pocketlog.database.repository.PocketLogDatabase
 import com.lazysloth.pocketlog.database.repository.TransactionRepository
 
 interface AppContainer {
-    val authRepository : UserRepository
+    val userRepository : UserRepository
     val transactionRepository : TransactionRepository
 }
 
@@ -17,7 +17,7 @@ class AppDataContainer(
     override val transactionRepository: TransactionRepository by lazy {
         OfflineTransactionRepository(PocketLogDatabase.getDatabase(context).getTransactionItem())
     }
-    override val authRepository: UserRepository by lazy {
+    override val userRepository: UserRepository by lazy {
         UserRepository(PocketLogDatabase.getDatabase(context).userDao())
     }
 

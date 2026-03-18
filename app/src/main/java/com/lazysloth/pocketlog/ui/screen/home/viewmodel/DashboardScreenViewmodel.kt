@@ -1,26 +1,24 @@
 package com.lazysloth.pocketlog.ui.screen.home.viewmodel
 
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lazysloth.pocketlog.database.Transaction
 import com.lazysloth.pocketlog.database.repository.TransactionRepository
-import com.lazysloth.pocketlog.ui.screen.home.TransactionDetailsScreen
+import com.lazysloth.pocketlog.database.repository.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMap
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 
-
 class DashboardScreenViewModel(
     transactionRepository: TransactionRepository,
+    private val userRepository: UserRepository,
+
 ) : ViewModel() {
         //TODO this is not required for this screen but required for details screen
 //    var itemId: Int = checkNotNull(savedStateHandle[DashboardScreenDestination.itemIdArg])
@@ -30,9 +28,24 @@ private val itemId  = MutableStateFlow<Int?>(null)
     }
     //TODO no need for that too because this screen reads only the data from repo not to modify it
 //    private val _uiState = MutableStateFlow(DashboardUiState())
+    var userId = MutableStateFlow<Int?>(null)
+
+
+        suspend fun getIdByUsername(username: String) {
+            userId.value = userRepository.getIdByUsername(username)
+            println("userId = $userId")
+        }
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     val uiStateList: StateFlow<DashboardUiState> =
-        transactionRepository.getAllTransactions()
+        userId
             .filterNotNull()
+            .flatMapLatest { id ->
+
+
+        transactionRepository.getAllTransactions(id)
+        }
             .map {
                 DashboardUiState(it)
             }.stateIn(

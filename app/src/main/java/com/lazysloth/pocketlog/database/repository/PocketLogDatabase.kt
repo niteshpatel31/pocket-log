@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.lazysloth.pocketlog.database.Converters
 import com.lazysloth.pocketlog.database.Transaction
@@ -13,7 +12,7 @@ import com.lazysloth.pocketlog.database.User
 import com.lazysloth.pocketlog.database.UserDao
 
 
-@Database(entities = [Transaction::class, User::class], version = 3, exportSchema = false)
+@Database(entities = [Transaction::class, User::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PocketLogDatabase : RoomDatabase() {
     abstract fun getTransactionItem(): TransactionItemDao

@@ -1,21 +1,17 @@
 package com.lazysloth.pocketlog.ui.screen.authentication.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.lazysloth.pocketlog.database.User
-import com.lazysloth.pocketlog.database.data.PasswordManager
+import com.lazysloth.pocketlog.database.Transaction
+import com.lazysloth.pocketlog.database.repository.TransactionRepository
 import com.lazysloth.pocketlog.database.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
-class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
+class AuthViewModel(private val userRepository: UserRepository, private val transactionRepository: TransactionRepository ) : ViewModel() {
 
 //    val passwordExists: StateFlow<Boolean> = userRepository.
 //        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
@@ -32,6 +28,8 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun saveUser(userState : SignupUiState) {
         viewModelScope.launch {
             userRepository.saveUser(userState.toUser())
+//            transactionRepository.assignUserId()
+
         }
     }
 
@@ -48,7 +46,17 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
 
 }
-
+//fun SignupUiState.toTransaction(): Transaction = Transaction(
+//    userId = id,
+//    id = TODO(),
+//    amount = TODO(),
+//    account = TODO(),
+//    category = TODO(),
+//    transactionType = TODO(),
+//    note = TODO(),
+//    description = TODO(),
+//    dateTime = TODO(),
+//)
 
 
 data class UserEntryUiState(

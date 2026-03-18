@@ -21,6 +21,7 @@ interface TransactionItemDao {
 
     @Query("SELECT * from items WHERE id = :id ")
     fun getTransaction(id: Int) : Flow<Transaction?>
-    @Query("SELECT * FROM items ORDER BY id ASC")
-    fun getAllTransactionItems() : Flow<List<Transaction>>
+    @androidx.room.Transaction
+    @Query("SELECT * FROM items WHERE userId = :userId ORDER BY id ASC")
+    fun getAllTransactionByUserId(userId: Int?) : Flow<List<Transaction>>
 }
