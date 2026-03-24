@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.update
 class SignupViewModel() : ViewModel() {
     private val _uiState = MutableStateFlow(SignupUiState())
     val uiState: StateFlow<SignupUiState> = _uiState.asStateFlow()
+    // SSH verification test:w
+
 
     fun onUsernameChange(username: String) {
         if (_uiState.value.username.contains(Regex("""[\p{Punct}\p{S}]"""))) {
