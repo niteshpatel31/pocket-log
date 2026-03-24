@@ -12,48 +12,54 @@ import kotlinx.coroutines.flow.update
 
 class SignupViewModel() : ViewModel() {
     private val _uiState = MutableStateFlow(SignupUiState())
-    val uiState : StateFlow<SignupUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<SignupUiState> = _uiState.asStateFlow()
 
     fun onUsernameChange(username: String) {
         if (_uiState.value.username.contains(Regex("""[\p{Punct}\p{S}]"""))) {
             changeIsError(true)
-        }
-        else changeIsError(false)
+        } else changeIsError(false)
         _uiState.update {
             it.copy(username = username)
         }
     }
+
     fun onFirstNameChange(firstName: String) {
         _uiState.update {
             it.copy(firstName = firstName)
         }
     }
+
     fun onLastNameChange(lastName: String) {
         _uiState.update {
-            it.copy( lastName= lastName)
+            it.copy(lastName = lastName)
         }
     }
+
     fun onEmailChange(email: String) {
         _uiState.update {
             it.copy(email = email)
         }
     }
+
     fun onPasswordChange(password: String) {
         _uiState.update {
-            it.copy(password= password)
+            it.copy(password = password)
         }
     }
-    fun onConfirmPasswordChange(password: String){
+
+    fun onConfirmPasswordChange(password: String) {
         _uiState.update {
             it.copy(confirmPassword = password)
         }
     }
-    fun onIdentifierChange(value: String){
+
+    fun onIdentifierChange(value: String) {
         _uiState.update {
             it.copy(identifier = value)
         }
     }
-    fun changeIsError(isError: Boolean){
+
+    fun changeIsError(isError: Boolean) {
         _uiState.update {
             it.copy(isError = isError)
         }
@@ -71,9 +77,12 @@ data class SignupUiState(
     val confirmPassword: String = "",
     val isError: Boolean = false,
 )
-fun SignupUiState.toUser() : User = User(
+
+fun SignupUiState.toUser(): User = User(
     id = id,
     username = username,
+    firstName = firstName,
+    lastName = lastName,
     emailId = email,
     password = password
 )
