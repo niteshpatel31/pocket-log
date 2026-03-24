@@ -14,6 +14,7 @@ class SignupViewModel() : ViewModel() {
     private val _uiState = MutableStateFlow(SignupUiState())
     val uiState: StateFlow<SignupUiState> = _uiState.asStateFlow()
     // SSH verification test:w
+    // added ssh_pub key to git global
 
 
     fun onUsernameChange(username: String) {
