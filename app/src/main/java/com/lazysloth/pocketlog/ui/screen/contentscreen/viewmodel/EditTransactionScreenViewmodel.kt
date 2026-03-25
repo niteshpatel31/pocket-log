@@ -1,5 +1,6 @@
 package com.lazysloth.pocketlog.ui.screen.contentscreen.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lazysloth.pocketlog.database.Transaction
@@ -42,6 +43,7 @@ class EditTransactionScreenViewmodel(
                 .filterNotNull()
                 .collect { transaction ->
                     _uiState.value = transaction.toAddTransactionUiState()
+                    itemId.value = id
                 }
         }
     }
@@ -105,12 +107,18 @@ class EditTransactionScreenViewmodel(
         _uiState.update { it.copy(inputDescription = description) }
     }
 
-    fun saveTransaction() {
+    fun updateTransaction() {
         viewModelScope.launch {
             val userId = userPersists.currentId
             println("the currentUserid = ${userPersists.currentId}")
             transactionRepository.updateTransaction(_uiState.value.toItem(userId))
 
+        }
+    }
+
+    fun deleteTransaction(){
+        viewModelScope.launch {
+            transactionRepository.deleteTransactionById(itemId.value)
         }
     }
 

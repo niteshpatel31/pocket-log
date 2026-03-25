@@ -23,17 +23,17 @@ fun TransactionEditScreen(onSavePopBackStack: () -> Unit) {
     val context = LocalContext.current.applicationContext
     AddTransactionScreenImpl(
         uiState = transactionItem,
-        vm::onAccountSelected,
-        vm::onAmountChange,
-        vm::onExpandedChange,
-        vm::onOptionSelected,
-        vm::onTransactionTypeSelected,
-        vm::onNoteValueChange,
-        vm::onDescriptionChange,
-        vm::onClickDate,
-        vm::onDateChange,
+        onAccountSelected = vm::onAccountSelected,
+        onAmountChange = vm::onAmountChange,
+        onExpandedChange = vm::onExpandedChange,
+        onOptionSelected = vm::onOptionSelected,
+        onTransactionTypeSelected = vm::onTransactionTypeSelected,
+        onNoteValueChange = vm::onNoteValueChange,
+        onDescriptionChange = vm::onDescriptionChange,
+        onClickDate = vm::onClickDate,
+        onDateChange = vm::onDateChange,
         onSave = {
-            vm.saveTransaction()
+            vm.updateTransaction()
             onSavePopBackStack()
             Toast.makeText(context,"Transaction Updated!!", Toast.LENGTH_SHORT).show()
         },

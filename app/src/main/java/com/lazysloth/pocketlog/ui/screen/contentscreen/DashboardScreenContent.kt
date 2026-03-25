@@ -55,7 +55,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DashboardScreenContent(
-    onClickEdit:()->Unit,
+    onClickEdit: () -> Unit,
     viewModel: DashboardScreenViewModel,
     onClickDetails: (Int) -> Unit,
     transList: List<Transaction>,
@@ -64,7 +64,7 @@ fun DashboardScreenContent(
     val transItem by viewModel.uiStateItem.collectAsState()
     var isDialogOpen by remember() { mutableStateOf(false) }
     var itemId by remember { mutableStateOf(0) }
-    val editTransactionScreenViewmodel : EditTransactionScreenViewmodel = koinViewModel(
+    val editTransactionScreenViewmodel: EditTransactionScreenViewmodel = koinViewModel(
         viewModelStoreOwner = LocalActivity.current as ComponentActivity
     )
     LazyColumn(
@@ -86,6 +86,7 @@ fun DashboardScreenContent(
                 modifier = Modifier.clickable(enabled = true, onClick = {
                     viewModel.getItemId(item.id)
                     editTransactionScreenViewmodel.getItemId(item.id)
+
                     isDialogOpen = true
                 })
             )
@@ -114,14 +115,24 @@ fun DashboardScreenContent(
 
                 ) {
                 // your content
-                TransactionDetailDialog(onClickEdit = {onClickEdit()},onClose = {isDialogOpen = false}, uiState = transItem)
+                TransactionDetailDialog(
+                    onClickDelete = {
+                        editTransactionScreenViewmodel.deleteTransaction()
+                        isDialogOpen = false
+                    },
+                    onClickEdit = { onClickEdit() },
+                    onClose = { isDialogOpen = false },
+                    uiState = transItem
+                )
             }
         }
     }
 }
-object DialogDestination{
+
+object DialogDestination {
     const val itemArg = "item_arg"
 }
+
 @Composable
 fun RecordContent(
     icon: Painter,
@@ -197,5 +208,11 @@ fun RecordContent(
 @Preview(showSystemUi = true)
 @Composable
 fun DashboardPreview() {
-    PocketLogTheme { DashboardScreen(onClickEdit = {}, onClickAdd = {}, onClickTransactionDetails = {}, onClickSetting = {}) }
+    PocketLogTheme {
+        DashboardScreen(
+            onClickEdit = {},
+            onClickAdd = {},
+            onClickTransactionDetails = {},
+            onClickSetting = {})
+    }
 }

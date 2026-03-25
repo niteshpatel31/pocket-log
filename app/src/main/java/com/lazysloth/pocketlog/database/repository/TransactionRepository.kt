@@ -9,7 +9,7 @@ interface TransactionRepository  {
 
      suspend fun deleteTransaction(transaction: Transaction)
 
-
+    suspend fun deleteTransactionById(id:Int?)
 
      suspend fun updateTransaction(transaction: Transaction) 
 

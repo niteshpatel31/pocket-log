@@ -14,6 +14,8 @@ class OfflineTransactionRepository(
 
     override suspend fun deleteTransaction(transaction: Transaction) = transactionItemDao.delete(transaction)
 
+    override suspend fun deleteTransactionById(id:Int?)= transactionItemDao.deleteById(id)
+
     override suspend fun updateTransaction(transaction: Transaction) {
         return transactionItemDao.update(transaction)
     }

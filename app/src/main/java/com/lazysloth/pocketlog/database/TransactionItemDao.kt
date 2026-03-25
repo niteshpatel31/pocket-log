@@ -15,7 +15,8 @@ interface TransactionItemDao {
 
     @Delete
     suspend fun delete(transaction: Transaction)
-
+    @Query("DELETE FROM items WHERE id=:id")
+    suspend fun deleteById(id:Int?)
     @Update
     suspend fun update(transaction: Transaction)
 
